@@ -29,12 +29,57 @@ Some useful tips to help you get started:
 1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
 
 Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
+##### *Here are some of the Modifications in index.html*
+To Optimize PageSpeed Insights score for index.html:
+- Reduce critical resources By 
+- Inline the CSS style file in index.html to reduce RoundTrip(request and response between client and server).
+- Adding Async attribute into ```analytics.js``` and ```perfmatters.min.js```  
+
+
 
 #### Part 2: Optimize Frames per Second in pizza.html
 
 To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
 
 You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
+
+##### *Here are some of the Modifications in views/js/main.js*
+- Avoiding Forced Synchronous Layout
+-- ``` document.querySelectorAll ``` Removed out of the loop and to improve the speed I used ```getElementsByClassName```: 
+   ```
+    function changePizzaSizes(size) {
+      var randomPizzas = document.getElementsByClassName("randomPizzaContainer");
+      var dx = determineDx(randomPizzas[0], size);
+      var newwidth = (randomPizzas[0].offsetWidth + dx);
+      for (var i = 0; i < randomPizzas.length; i++) {
+        randomPizzas[i].style.width = newwidth + 'px';
+        }
+    }
+   ```
+-- Also ```document.getElementById``` Should be removed out of the loop:
+   ```
+    var randPizzas = document.getElementById("randomPizzas");
+    for (var i = 2; i < 100; i++) {
+      randPizzas.appendChild(pizzaElementGenerator(i));
+    }
+   ```
+-- Assigning scrollTop outside the loop:
+   ```
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+    for (var i = 0; i < items.length; i++) {
+       phase = Math.sin((scrollTop / 1250) + (i % 5));
+       items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+      }
+   ```
+- This will request that your animation function be called before the browser performs the next repaint:
+   ```
+    window.addEventListener('scroll', function() {
+    window.requestAnimationFrame(updatePositions);
+    });
+   ```
+
+
 
 ### Optimization Tips and Tricks
 * [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
