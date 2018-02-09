@@ -45,7 +45,7 @@ You might find the FPS Counter/HUD Display useful in Chrome developer tools desc
 
 ##### *Here are some of the Modifications in views/js/main.js*
 - Avoiding Forced Synchronous Layout
--- ``` document.querySelectorAll ``` Removed out of the loop and to improve the speed I used ```getElementsByClassName```: 
+  - ``` document.querySelectorAll ``` Removed out of the loop and to improve the speed I used ```getElementsByClassName```: 
    ```
     function changePizzaSizes(size) {
       var randomPizzas = document.getElementsByClassName("randomPizzaContainer");
@@ -56,14 +56,14 @@ You might find the FPS Counter/HUD Display useful in Chrome developer tools desc
         }
     }
    ```
--- Also ```document.getElementById``` Should be removed out of the loop:
+  - Also ```document.getElementById``` Should be removed out of the loop:
    ```
     var randPizzas = document.getElementById("randomPizzas");
     for (var i = 2; i < 100; i++) {
       randPizzas.appendChild(pizzaElementGenerator(i));
     }
    ```
--- Assigning scrollTop outside the loop:
+  - Assigning scrollTop outside the loop:
    ```
     var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 
