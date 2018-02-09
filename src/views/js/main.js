@@ -452,7 +452,7 @@ var resizePizzas = function(size) {
       var randomPizzas = document.querySelectorAll(".randomPizzaContainer");
       var dx = determineDx(randomPizzas[0], size);
 
-      var newwidth = (randomPizzas[0].offsetWidth + dx)
+      var newwidth = (randomPizzas[0].offsetWidth + dx);
       // removed determineDx function outside the for loop to stop Forced Synchronous Layout
       for (var i = 0; i < randomPizzas.length; i++) {
         randomPizzas[i].style.width = newwidth + 'px';
